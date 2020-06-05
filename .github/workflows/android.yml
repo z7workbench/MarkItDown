@@ -25,7 +25,7 @@ jobs:
       run: |
         gem install fir-cli
         fir login $token
-        fir p app/build/outputs/apk/releaseGitHub/app-release.apk
+        fir p app/build/outputs/apk/release/app-release.apk
       env: 
         token: ${{ secrets.fir_token }}
       continue-on-error: true

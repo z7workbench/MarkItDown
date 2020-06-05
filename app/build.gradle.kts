@@ -5,21 +5,26 @@ plugins {
 
 android {
     compileSdkVersion(29)
-
     defaultConfig {
         applicationId = "xin.z7workbench.markitdown"
         minSdkVersion(26)
         targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        create("github") {
+            storeFile = file("../mark-it-down-keystore.jks")
+            storePassword = System.getenv("store_psd")
+            keyAlias = System.getenv("alias")
+            keyPassword = System.getenv("key_psd")
+        }
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.findByName("github")
         }
     }
     compileOptions {
@@ -27,9 +32,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     sourceSets["main"].java.srcDir("src/main/kotlin")
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+    kotlinOptions.jvmTarget = "1.8"
     buildFeatures.viewBinding = true
 }
 
@@ -39,7 +42,4 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("com.google.android.material:material:1.1.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
 }
